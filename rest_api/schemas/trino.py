@@ -1,21 +1,19 @@
-
 from typing import Optional
 from pydantic import BaseModel
 from pydantic.dataclasses import dataclass
 
 
-@dataclass
 class Response(BaseModel):
     message: str
 
 
 @dataclass
-class ReponseList:
+class ResponseList:
     status_code: int
     message: str
     new_item: Response
 
 
 @dataclass
-class Product:
+class ProductInput:
     Produto: Optional[str] = None

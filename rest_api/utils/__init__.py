@@ -15,5 +15,7 @@ class FilterPage(BaseModel):
 
 
 def get_template_environment():
-    loader = FileSystemLoader(Path(__file__).parent.parent.resolve() / "database" / "queries")
+    loader = FileSystemLoader(
+        Path(__file__).parent.parent.resolve() / "database" / "queries"
+    )
     return Environment(loader=loader, autoescape=False)

@@ -1,67 +1,59 @@
 from http import HTTPStatus
 from fastapi import HTTPException
 from asgiref.sync import sync_to_async
+import oracledb
 from pydantic import TypeAdapter
 
-from rest_api.schemas.oracle import ResponseList, Response
-from metamorfo.database import OracleDatabase
+from schemas.oracle import ResponseList, Response
 
 
 class OracleDb:
-
     @staticmethod
-    async def get(params, query_dir_template):
+    async def get(params, query_dir_template, oracle_db_1, oracle_db_2):
         try:
-            # Banco 1
-            oracle_db_1 = OracleDatabase(
-                dsn="",
-                user="user1",
-                password="senha1"
-            )
-            query1 = query_dir_template.get_template(
-                query_dir_template
-                ).render()
-            rows1 = await sync_to_async(
-                oracle_db_1.execute_query
-            )(query1, params)
 
-            items1 = [r._asdict() for r in rows1.fetchall()]
-            items1 = [Response(**r) for r in items1]
+            def parse(cursor):
+                items = [r._asdict() for r in rows1.fetchall()]
+                return [Response(**r) for r in items]
+
+            # Banco 1
+            query1 = query_dir_template.get_template(query_dir_template).render()
+            rows1 = await sync_to_async(oracle_db_1.execute_query)(query1, params)
 
             # Banco 2
-            oracle_db_2 = OracleDatabase(
-                dsn="",
-                user="user2",
-                password="senha2"
-            )
-            query2 = query_dir_template.get_template(
-                query_dir_template
-            ).render()
-            rows2 = await sync_to_async(
-                oracle_db_2.execute_query
-            )(query2, params)
-            items2 = [r._asdict() for r in rows2.fetchall()]
-            items2 = [Response(**r) for r in items2]
+            query2 = query_dir_template.get_template(query_dir_template).render()
+            rows2 = await sync_to_async(oracle_db_2.execute_query)(query2, params)
 
             # Agregamento de resultados: a definir
-            all_items = items1 + items2
+            items = parse(rows1) + parse(rows2)
 
             response = ResponseList(
                 status_code=HTTPStatus.OK,
                 message="Consulta realizada com sucesso nos bancos Oracle.",
-                items=all_items
+                items=items,
             )
 
-            return TypeAdapter(ResponseList).dump_python(
-                response,
-                by_alias=True
-            )
+            return TypeAdapter(ResponseList).dump_python(response, by_alias=True)
 
         except Exception as e:
             raise HTTPException(
                 status_code=HTTPStatus.UNPROCESSABLE_ENTITY,
                 detail={
                     "message": "Erro ao consultar os bancos Oracle",
-                    "error": str(e)
-                }
+                    "error": str(e),
+                },
             )
+
+
+class OracleDatabase:
+    def __init__(self, user, password, dsn):
+        self.connection = oracledb.connect(
+            user=user,
+            password=password,
+            dsn=dsn
+        )
+
+    def execute_query(self, query, params=None):
+        cursor = self.connection.cursor()
+        cursor.execute(query, params or {})
+        return cursor
