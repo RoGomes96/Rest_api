@@ -1,0 +1,56 @@
+[project]
+name = "rest-api"
+version = "0.0.1"
+description = "Demonstração de ferramenta"
+authors = [
+    {name = "Rodrigo Anjinho Gomes"}
+]
+readme = "README.md"
+requires-python = ">=3.11,<4.0"
+dependencies = [
+    "duckdb (>=1.3.1,<2.0.0)",
+    "pandas (>=2.3.0,<3.0.0)",
+    "httpx (>=0.28.1,<0.29.0)",
+    "fastapi (>=0.115.13,<0.116.0)",
+    "sqlalchemy (>=2.0.41,<3.0.0)",
+    "pydantic (>=2.11.7,<3.0.0)",
+    "uvicorn (>=0.34.3,<0.35.0)"
+]
+
+
+[tool.poetry.group.dev.dependencies]
+taskipy = "^1.14.1"
+ruff = "^0.12.0"
+pytest = "^8.4.1"
+
+
+[tool.poetry.dev-dependencies]
+taskipy = "^1.14.1"
+ruff = "^0.11.12"
+pytest = "^8.3.5"
+pytest-asyncio = "^1.0.0"
+
+[tool.poetry.scripts]
+test = "pytest:main"
+
+[tool.coverage.run]
+concurrency = ["thread", "greenlet"]
+
+[tool.pytest.ini_options]
+pythonpath = "."
+addopts = '-p no:warnings'
+asyncio_mode = "strict"
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT', 'FAST']
+
+[tool.taskipy.tasks]
+format = "ruff format --preview ."
+lint = "ruff check --fix --exit-non-zero-on-fix"
+dev = "uvicorn webserver:app --port 8080 --host 0.0.0.0 --reload"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
