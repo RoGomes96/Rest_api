@@ -1,0 +1,10 @@
+descricao: Consulta os dados da tabela em dois bancos Oracle e retorna os dados combinados.
+aplicacoes_origem:
+  - Banco Oracle a definir
+  - Banco Oracle a definir
+tabelas_usadas:
+  - TABELA_a_definir
+parametros_necessarios:
+  param1:
+    tipo: string
+    descricao: Produto a ser buscado nos bancos.

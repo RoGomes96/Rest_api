@@ -1,0 +1,9 @@
+descricao: Consulta os dados da tabela em um banco TrinoDB e retorna os dados por produto.
+aplicacoes_origem:
+  - Banco Trino a definir
+tabelas_usadas:
+  - TABELA_a_definir
+parametros_necessarios:
+  param1:
+    tipo: string
+    descricao: Produto a ser buscado nos bancos.
