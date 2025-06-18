@@ -20,7 +20,8 @@ dependencies = [
     "pyyaml (>=6.0.2,<7.0.0)",
     "metamorfo[databases] (>=0.3.3,<0.4.0)",
     "pymongo (>=4.13.2,<5.0.0)",
-    "redis (>=6.2.0,<7.0.0)"
+    "redis (>=6.2.0,<7.0.0)",
+    "psutil (==6.0.0)"
 ]
 
 
@@ -54,7 +55,7 @@ select = ['I', 'F', 'E', 'W', 'PL', 'PT']
 [tool.taskipy.tasks]
 format = "ruff format --preview ."
 lint = "ruff check --fix --exit-non-zero-on-fix"
-dev = "uvicorn webserver:app --port 8080 --host 0.0.0.0 --reload"
+dev = "uvicorn rest_api.webserver:app --port 8080 --host 0.0.0.0 --reload"
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]

@@ -1,8 +1,8 @@
 from http import HTTPStatus
 from fastapi import APIRouter, HTTPException
 
-from utils import EndpointName
-from utils.metadata_loader import load_metadata
+from rest_api.utils import EndpointName
+from rest_api.utils.metadata_loader import load_metadata
 
 router = APIRouter(prefix="/metadata", tags=["metadata"])
 

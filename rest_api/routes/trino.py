@@ -1,12 +1,11 @@
 from http import HTTPStatus
 from typing import Annotated
 
-from fastapi import APIRouter, Depends, HTTPException, Query
+from fastapi import APIRouter, Depends, Query
 
-from models.Trino import TrinoDb
-from schemas.trino import ProductInput, ResponseList
-from utils import FilterPage, Proccessing422, get_template_environment
-from utils.metadata_loader import load_metadata
+from rest_api.models.Trino import TrinoDb
+from rest_api.schemas.trino import ProductInput, ResponseList
+from rest_api.utils import FilterPage, Proccessing422, get_template_environment
 
 router = APIRouter(prefix="/produtos", tags=["Trino"])
 
@@ -32,6 +31,3 @@ async def list_products_trino(
         "message": "Usuário Atualizado com sucesso",
         "new_item": response,
     }
-
-
-

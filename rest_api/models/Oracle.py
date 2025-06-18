@@ -4,7 +4,7 @@ from asgiref.sync import sync_to_async
 import oracledb
 from pydantic import TypeAdapter
 
-from schemas.oracle import ResponseList, Response
+from rest_api.schemas.oracle import ResponseList, Response
 
 
 class OracleDb:
@@ -17,12 +17,22 @@ class OracleDb:
                 return [Response(**r) for r in items]
 
             # Banco 1
-            query1 = query_dir_template.get_template(query_dir_template).render()
-            rows1 = await sync_to_async(oracle_db_1.execute_query)(query1, params)
+            query1 = query_dir_template.get_template(
+                query_dir_template
+            ).render()
+            rows1 = await sync_to_async(oracle_db_1.execute_query)(
+                query1,
+                params
+            )
 
             # Banco 2
-            query2 = query_dir_template.get_template(query_dir_template).render()
-            rows2 = await sync_to_async(oracle_db_2.execute_query)(query2, params)
+            query2 = query_dir_template.get_template(
+                query_dir_template
+            ).render()
+            rows2 = await sync_to_async(oracle_db_2.execute_query)(
+                query2,
+                params
+            )
 
             # Agregamento de resultados: a definir
             items = parse(rows1) + parse(rows2)
@@ -33,7 +43,10 @@ class OracleDb:
                 items=items,
             )
 
-            return TypeAdapter(ResponseList).dump_python(response, by_alias=True)
+            return TypeAdapter(ResponseList).dump_python(
+                response,
+                by_alias=True
+            )
 
         except Exception as e:
             raise HTTPException(
