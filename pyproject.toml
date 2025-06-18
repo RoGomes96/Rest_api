@@ -14,19 +14,25 @@ dependencies = [
     "fastapi (>=0.115.13,<0.116.0)",
     "sqlalchemy (>=2.0.41,<3.0.0)",
     "pydantic (>=2.11.7,<3.0.0)",
-    "uvicorn (>=0.34.3,<0.35.0)"
+    "uvicorn (>=0.34.3,<0.35.0)",
+    "asgiref (>=3.8.1,<4.0.0)",
+    "oracledb (>=3.1.1,<4.0.0)",
+    "pyyaml (>=6.0.2,<7.0.0)",
+    "metamorfo[databases] (>=0.3.3,<0.4.0)",
+    "pymongo (>=4.13.2,<5.0.0)",
+    "redis (>=6.2.0,<7.0.0)"
 ]
 
 
 [tool.poetry.group.dev.dependencies]
 taskipy = "^1.14.1"
-ruff = "^0.12.0"
 pytest = "^8.4.1"
+locust = "^2.37.10"
+ruff = "^0.4.2"
 
 
 [tool.poetry.dev-dependencies]
 taskipy = "^1.14.1"
-ruff = "^0.11.12"
 pytest = "^8.3.5"
 pytest-asyncio = "^1.0.0"
 
@@ -43,7 +49,7 @@ asyncio_mode = "strict"
 
 [tool.ruff.lint]
 preview = true
-select = ['I', 'F', 'E', 'W', 'PL', 'PT', 'FAST']
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
 
 [tool.taskipy.tasks]
 format = "ruff format --preview ."

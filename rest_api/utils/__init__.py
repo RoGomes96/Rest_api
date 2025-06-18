@@ -2,6 +2,7 @@ from jinja2 import Environment, FileSystemLoader
 from pydantic import BaseModel, Field
 from pydantic.dataclasses import dataclass
 from pathlib import Path
+from enum import Enum
 
 
 @dataclass
@@ -19,3 +20,8 @@ def get_template_environment():
         Path(__file__).parent.parent.resolve() / "database" / "queries"
     )
     return Environment(loader=loader, autoescape=False)
+
+
+class EndpointName(str, Enum):
+    oracle = "oracle"
+    trino = "trino"
