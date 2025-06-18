@@ -1,5 +1,6 @@
-from typing import Optional
-from pydantic import BaseModel
+from dataclasses import field
+from typing import Annotated
+from pydantic import BaseModel, Field
 from pydantic.dataclasses import dataclass
 
 
@@ -16,4 +17,11 @@ class ResponseList:
 
 @dataclass
 class ProductInput:
-    Produto: Optional[str] = None
+    produto: Annotated[
+        str | None,
+        Field(
+            title="produto",
+            alias="produto",
+            description="Produto a ser buscado no banco de dados Trino.",
+        ),
+    ] = field(default=None)

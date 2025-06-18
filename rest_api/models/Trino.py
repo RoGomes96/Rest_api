@@ -4,7 +4,7 @@ from fastapi import HTTPException, Response
 from asgiref.sync import sync_to_async
 from pydantic import TypeAdapter
 
-from schemas.trino import ResponseList
+from rest_api.schemas.trino import ResponseList
 
 
 class TrinoDb:
@@ -23,7 +23,10 @@ class TrinoDb:
                 message="Consulta realizada com sucesso",
                 items=items,
             )
-            return TypeAdapter(ResponseList).dump_python(response, by_alias=True)
+            return TypeAdapter(ResponseList).dump_python(
+                response,
+                by_alias=True
+            )
         except Exception as e:
             raise HTTPException(
                 status_code=HTTPStatus.UNPROCESSABLE_ENTITY,

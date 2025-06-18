@@ -2,9 +2,9 @@ from http import HTTPStatus
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, Query
-from models.Oracle import OracleDatabase, OracleDb
-from schemas.oracle import ResponseList, ProductInput
-from utils import FilterPage, Proccessing422, get_template_environment
+from rest_api.models.Oracle import OracleDatabase, OracleDb
+from rest_api.schemas.oracle import ResponseList, ProductInput
+from rest_api.utils import FilterPage, Proccessing422, get_template_environment
 
 router = APIRouter(prefix="/produtos", tags=["Oracle"])
 
